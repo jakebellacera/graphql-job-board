@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { makeUseQuery } from './makeUseQuery';
+import { useQuery } from './useQuery';
 
 const query = `#graphql
   query JobList {
@@ -15,10 +15,8 @@ const query = `#graphql
   }
 `;
 
-const useJobList = makeUseQuery(query, []);
-
 export const JobList = () => {
-  const { loading, data } = useJobList();
+  const { loading, data } = useQuery(query);
 
   if (loading) {
     return (

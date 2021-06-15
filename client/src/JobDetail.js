@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { makeUseQuery } from './makeUseQuery';
+import { useQuery } from './useQuery';
 
 const query = `#graphql
   query JobDetail($id: ID!) {
@@ -16,11 +16,9 @@ const query = `#graphql
   }
 `;
 
-const useJobDetail = makeUseQuery(query);
-
 export const JobDetail = () => {
   const { jobId } = useParams();
-  const { data, loading } = useJobDetail({ id: jobId });
+  const { data, loading } = useQuery(query, { id: jobId });
 
   if (loading) {
     return (
