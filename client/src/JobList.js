@@ -1,33 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from './useQuery';
 
-const query = `#graphql
-  query JobList {
-    jobs {
-      id
-      title
-      company {
-        id
-        name
-      }
-    }
-  }
-`;
+export const JobList = props => {
+  const { jobs = [] } = props;
 
-export const JobList = () => {
-  const { loading, data } = useQuery(query);
-
-  if (loading) {
+  if (!jobs.length) {
     return (
-      <ul className="box">
-        <li className="media">Loading jobs...</li>
-      </ul>
+      <div className="box">
+        No jobs found.
+      </div>
     );
-  }
-
-  const { jobs } = data;
-
+  };
+  
   return (
     <ul className="box">
       {jobs.map(job => {
