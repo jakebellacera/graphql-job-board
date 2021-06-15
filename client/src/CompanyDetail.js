@@ -1,9 +1,33 @@
 import React from 'react';
-import { companies } from './fake-data';
+import { useParams } from 'react-router';
+import { useQuery } from './useQuery';
 
-export const CompanyDetail = props => {
-  const { match } = props;
-  const company = companies.find((company) => company.id === match.params.companyId);
+const query = `#graphql
+  query CompanyDetail($id: ID!) {
+    company(id: $id) {
+      name
+      description
+    }
+  }
+`;
+
+export const CompanyDetail = () => {
+  const { companyId } = useParams();
+  const { loading, data } = useQuery(query, { id: companyId });
+
+  if (loading) {
+    return (
+      <div className="box">Loading...</div>
+    );
+  }
+
+  const { company } = data;
+
+  if (!company) {
+    return (
+      <div className="box">Company with ID "{companyId}" not found.</div>
+    )
+  }
 
   return (
     <div>
