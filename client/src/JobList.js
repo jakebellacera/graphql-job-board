@@ -1,8 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { makeUseQuery } from './makeUseQuery';
 
-export const JobList = props => {
-  const { jobs } = props;
+const query = `#graphql
+  query JobList {
+    jobs {
+      id
+      title
+      company {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const useJobList = makeUseQuery(query, []);
+
+export const JobList = () => {
+  const { loading, data } = useJobList();
+
+  if (loading) {
+    return (
+      <ul className="box">
+        <li className="media">Loading jobs...</li>
+      </ul>
+    );
+  }
+
+  const { jobs } = data;
 
   return (
     <ul className="box">
