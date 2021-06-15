@@ -12,6 +12,13 @@ const Query = {
   jobs: () => db.jobs.list(),
 };
 
+const Company = {
+  jobs: company => {
+    const { id } = company;
+    return db.jobs.list().filter(({ companyId }) => companyId === id);
+  },
+};
+
 const Job = {
   company: job => {
     const { companyId } = job;
@@ -20,6 +27,7 @@ const Job = {
 };
 
 const resolvers = {
+  Company,
   Job,
   Query,
 };
