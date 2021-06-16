@@ -5,12 +5,24 @@ const Query = {
     const { id } = args;
     return db.companies.get(id);
   },
+  companies: () => db.companies.list(),
   job: (root, args) => {
     const { id } = args;
     return db.jobs.get(id);
   },
   jobs: () => db.jobs.list(),
 };
+
+const Mutation = {
+  createJob: (root, args) => {
+    const { title, companyId, description } = args;
+    return db.jobs.create({
+      title,
+      companyId,
+      description,
+    });
+  },
+}
 
 const Company = {
   jobs: company => {
@@ -27,9 +39,10 @@ const Job = {
 };
 
 const resolvers = {
+  Query,
+  Mutation,
   Company,
   Job,
-  Query,
 };
 
 module.exports = { resolvers };
